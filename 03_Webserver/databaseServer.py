@@ -1,5 +1,3 @@
-from crypt import methods
-from sre_parse import FLAGS
 from flask import Flask, request
 import sqlite3
 
