@@ -5,16 +5,16 @@ import sqlite3
 app = Flask(__name__)
 
 
+@app.route('/login', methods=['GET'])
+def login():
+    conn = sqlite3.connect("./database/stolenVehiclesDatabase.db")
+
 
 
 # TODO: put car details
 # TODO: put officer details
 # TODO: put incident report
 # TODO: put camera details
-
-@app.route('/props', methods=['GET'])
-def props():
-    pass
 
 
 
