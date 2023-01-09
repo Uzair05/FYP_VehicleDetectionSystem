@@ -56,6 +56,31 @@ CREATE TABLE IF NOT EXISTS CAMERA(
     LOCATION_NAME TEXT NULL,
 );""")
 
+# Table to hold permission details
+# camera persmission --> allows hardware access (can restrict to write only access)
+con.execute("""
+CREATE TABLE IF NOT EXISTS CAMERA_PERMISSION(
+    CAMERA_ID INTEGER PRIMARY KEY NOT NULL,
+    API TEXT NOT NULL,
+    FOREIGN KEY (CAMERA_ID) REFERENCES CAMERA(CAMERA_ID),
+);""")
+# officer persmission --> allows officer/personel access (can permit read/write/delete access)
+con.execute("""
+CREATE TABLE IF NOT EXISTS OFFICER_PERMISSION(
+    OFFICER_ID INTEGER PRIMARY KEY NOT NULL,
+    API TEXT NOT NULL,
+    FOREIGN KEY (OFFICER_ID) REFERENCES OFFICER(OFFICER_ID),
+);""")
+
+# officer login --> allows officer/personel app login
+con.execute("""
+CREATE TABLE IF NOT EXISTS OFFICER_PERMISSION(
+    OFFICER_ID INTEGER PRIMARY KEY NOT NULL,
+    API TEXT NOT NULL,
+    FOREIGN KEY (OFFICER_ID) REFERENCES OFFICER(OFFICER_ID),
+    FOREIGN KEY (OFFICER_ID) REFERENCES OFFICER_PERMISSION(OFFICER_ID),
+);""")
+
 # commit changes
 con.commit()
 # close connection
