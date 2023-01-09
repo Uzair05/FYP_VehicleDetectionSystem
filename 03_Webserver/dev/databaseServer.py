@@ -1,4 +1,5 @@
 from flask import Flask, request
+import typing
 import sqlite3
 
 app = Flask(__name__)
