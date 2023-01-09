@@ -1,5 +1,8 @@
 # Reference for webserver - taken from comp3330
-./03_Webserver/tmp_server.py 
+./03_Webserver/tmp_server.py
+./03_Webserver/tmp_set_up.py
+./03_Webserver/tmp_fillServer.py
+
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/androidstudio,kotlin,windows,macos,linux,c++,c,python,flask,node,visualstudiocode,pycharm,intellij
