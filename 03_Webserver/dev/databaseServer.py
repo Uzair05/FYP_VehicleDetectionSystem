@@ -1,4 +1,4 @@
-from typing import Union, Optional
+from typing import *
 from flask import Flask, request
 import sqlite3
 import time
@@ -15,19 +15,19 @@ def login():
     password:Optional[str] = request.args.get("password", None, type=str)
 
     if not((officer_id is not None) and (password is not None)):
-        return generateStatus(False, "Officer_id or Password Incorrect")
+        return generateStatus(False, "Officer_id or Password Incorrect -> None value received")
         
     password = hash(password)
 
     conn = sqlite3.connect("./database/stolenVehiclesDatabase.db")
     cursor = conn.execute(f"""
-        SELECT API from OFFICER_LOGIN where OFFICER_ID=\"{officer_id}\" and PASSWORD=\"{password}\";
+        SELECT API FROM OFFICER_LOGIN WHERE OFFICER_ID=\"{officer_id}\" AND PASSWORD=\"{password}\";
     """)
     res = [row for row in cursor]
     conn.close()
 
     if (len(res)==0):
-        return generateStatus(False, "Officer_id or Password Incorrect")
+        return generateStatus(False, "Officer_id or Password Incorrect -> Entry not found")
     else:
         # update api token for each login.
         api = genAPI(password, officer_id)
@@ -57,7 +57,7 @@ def insertCamera():
     conn = sqlite3.connect("./database/stolenVehiclesDatabase.db")
     conn.execute(
         "INSERT INTO CAMERA (MODEL_NUMBER, LOCATION_X, LOCATION_Y, LOCATION_NAME, API) VALUES (?, ?, ?, ?, ?);",
-        (model_number, loc_x, loc_y, loc_name)
+        (model_number, loc_x, loc_y, loc_name, api)
         )
     conn.commit()
     conn.close()
@@ -96,7 +96,6 @@ def insertOfficer():
     )
     conn.commit()
     conn.close()
-
     return generateStatus(True, "")
 
 @app.route('/insertVehicle', methods=['GET'])
@@ -146,7 +145,7 @@ def removeVehicle():
         conn.close()
         return generateStatus(True)
 
-@app.route('./insertIncidentReport', methods=["GET"])
+@app.route('/insertIncidentReport', methods=["GET"])
 def insertIncidentReport():
     # test API token; only officers can add incident report
     officer_api:Optional[str] = request.args.get("api_token", None, type=str)
@@ -176,7 +175,7 @@ def insertIncidentReport():
     conn.close()
     return generateStatus(True, "")
 
-@app.route('./removeIncidentReport', methods=["GET"])
+@app.route('/removeIncidentReport', methods=["GET"])
 def removeIncidentReport():
     # test API token; only officers can add incident report
     officer_api:Optional[str] = request.args.get("api_token", None, type=str)
@@ -205,7 +204,7 @@ def removeIncidentReport():
     conn.close()
     return generateStatus(True, "")
 
-@app.route("./testLicensePlate", methods=["GET"])
+@app.route("/testLicensePlate", methods=["GET"])
 def testLicensePlate():
     time_ = math.floor(time.time()) #note time alert was recieved
     # test API token; only cameras can test for properties
@@ -240,11 +239,11 @@ def testLicensePlate():
     return generateStatus(True, "")
 
     
+app.run(host='0.0.0.0')
 
 
 
-
-
+#TODO: insertOfficer Unique check
 
 
 

@@ -68,6 +68,18 @@ CREATE TABLE IF NOT EXISTS OFFICER_LOGIN(
     FOREIGN KEY (OFFICER_ID) REFERENCES OFFICER(OFFICER_ID)
 );""")
 
+
+# create admin instance [Officer]
+# officer persmission --> allows officer/personel access (can permit read/write/delete access)
+# officer login --> allows officer/personel app login
+con.execute(
+        "INSERT INTO OFFICER (OFFICER_ID, NAME, DISTRICT) VALUES (?, ?, ?);", 
+        ("#007", "TW Chim", "Pokfulam"))
+con.execute(
+        "INSERT INTO OFFICER_LOGIN (OFFICER_ID, PASSWORD, API) VALUES (?, ?, ?);", 
+        ("#007", "9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0", "0000"))
+        # password is 0000
+
 # commit changes
 con.commit()
 # close connection
