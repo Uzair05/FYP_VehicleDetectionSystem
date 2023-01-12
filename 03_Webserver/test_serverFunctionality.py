@@ -1,6 +1,8 @@
 import requests
 import json
 import unittest
+import time 
+import math
 
 def login(officer_id, password):
     req = requests.get("http://127.0.0.1:5000/login",params={
@@ -29,6 +31,45 @@ def insertOfficer(api_token, officer_id, password, name, district):
     })
     return json.loads(req.text)
 
+def insertVehicle(api_token, vehicle_type, license_plate_number, color, time_stolen):
+    req = requests.get("http://127.0.0.1:5000/insertVehicle", params={
+        "api_token":api_token,
+        "vehicle_type":vehicle_type,
+        "license_plate_number":license_plate_number,
+        "color":color,
+        "time_stolen":time_stolen
+    })
+    return json.loads(req.text)
+
+def removeVehicle(api_token, license_plate_number):
+    req = requests.get("http://127.0.0.1:5000/removeVehicle", params={
+        "api_token":api_token,
+        "license_plate_number":license_plate_number,
+    })
+    return json.loads(req.text)
+
+def insertIncident(api_token, license_plate_number, time_stolen):
+    req = requests.get("http://127.0.0.1:5000/insertIncidentReport", params={
+        "api_token":api_token,
+        "license_plate_number":license_plate_number,
+        "time_stolen": time_stolen
+    })
+    return json.loads(req.text)
+    
+def removeIncident(api_token, license_plate_number):
+    req = requests.get("http://127.0.0.1:5000/removeIncidentReport", params={
+        "api_token":api_token,
+        "license_plate_number":license_plate_number,
+    })
+    return (json.loads(req.text))
+
+def createAlert(api_token, license_plate_number):
+    req = requests.get("http://127.0.0.1:5000/noteLicensePlate", params={
+        "api_token":api_token,
+        "license_plate_number":license_plate_number
+    })
+    return json.loads(req.text)
+
 class Testing(unittest.TestCase):
     def testLogin(self):
         self.assertTrue(login("#007", "0000")["Success"], "Login should Succeed")
@@ -36,10 +77,10 @@ class Testing(unittest.TestCase):
         self.assertFalse(login("#001", "0000")["Success"], "Login should Fail")
 
     def testCameraInsert(self):
-        self.res = insertCamera(login("#007", "0000")["api_token"], "CANON350", 19.8767, -7.8967, "Sha wan drive")
+        self.camera = insertCamera(login("#007", "0000")["api_token"], "CANON350", 19.8767, -7.8967, "Sha wan drive")
 
-        self.assertTrue(self.res["Success"], "Camera insert should succeed")
-        self.assertNotEqual(self.res["api_token"], None, "Token api should exist")
+        self.assertTrue(self.camera["Success"], "Camera insert should succeed")
+        self.assertNotEqual(self.camera["api_token"], None, "Token api should exist")
 
         self.res_ = insertCamera("1234567", "CANON350", 19.8797, -7.3967, "Sha wan drive1")
         self.assertFalse(self.res_["Success"], "Camera insert should Fail")
@@ -57,9 +98,165 @@ class Testing(unittest.TestCase):
         self.assertFalse(self.newOfficer_2["Success"], "Should fail able to register -> incorrect token")
 
         #TODO: test for unique inputs
+    
+    def testInsertVehicle(self):
+        self.insertVehicle = insertVehicle(
+            login("#008", "0001")["api_token"],
+            "car",
+            "111244",
+            "blue",
+            math.floor(time.time())
+        )
+        self.assertTrue(self.insertVehicle["Success"])
 
+        self.insertVehicle_ = insertVehicle(
+            login("#008", "0001")["api_token"],
+            "van",
+            "111244",
+            "green",
+            math.floor(time.time())
+        )
+        self.assertFalse(self.insertVehicle_["Success"])
+
+        self.insertVehicle_ = insertVehicle(
+            "##",
+            "car",
+            "111244",
+            "blue",
+            math.floor(time.time())
+        )
+        self.assertFalse(self.insertVehicle_["Success"])
+
+    def testRemoveVehicle(self):
+        self.removeVehicle = removeVehicle(
+            login("#007", "0000")["api_token"],
+            "111244"
+        )
+        self.assertTrue(self.removeVehicle["Success"])
+
+        self.insertVehicle = insertVehicle(
+            login("#008", "0001")["api_token"],
+            "car",
+            "111244",
+            "blue",
+            math.floor(time.time())
+        )
+        self.assertTrue(self.insertVehicle["Success"])
+
+        self.removeVehicle_ = removeVehicle(
+            "##",
+            "111244"
+        )
+        self.assertFalse(self.removeVehicle_["Success"])
+
+        self.removeVehicle_ = removeVehicle(
+            login("#007", "0000")["api_token"],
+            "111247"
+        )
+        self.assertFalse(self.removeVehicle_["Success"])
+
+    def insertIncidentReport(self):
+        self.incident = insertIncident(
+            login("#007", "0000"),
+            "111244",
+            math.floor(time.time())
+        )
+        self.assertTrue(self.incident["Success"])
+
+        self.incident_ = insertIncident(
+            login("#007", "0000"),
+            "1112442",
+            math.floor(time.time())
+        )
+        self.assertFalse(self.incident_["Success"])
+
+        self.incident_ = insertIncident(
+            "##",
+            "111244",
+            math.floor(time.time())
+        )
+        self.assertFalse(self.incident_["Success"])
+
+    def testRemoveIncident(self):
+        self.removeIncident_  = removeIncident(
+            "##",
+            "111244"
+        )
+        self.assertFalse(self.removeIncident_["Success"])
+
+        self.removeIncident_  = removeIncident(
+            login("#008", "0001")["api_token"],
+            "11124466"
+        )
+        self.assertFalse(self.removeIncident_["Success"])
+
+        self.removeIncident  = removeIncident(
+            login("#008", "0001")["api_token"],
+            "111244"
+        )
+        self.assertTrue(self.removeIncident["Success"])
+
+    def testAlert(self):
+
+        self.camera = insertCamera(
+            login("#007", "0000")["api_token"], 
+            "CANON350", 
+            19.8667, 
+            -7.8962, 
+            "Sha wan drive"
+        )
+
+        self.assertTrue(self.camera["Success"])
+
+        insertVehicle(
+            login("#007", "0001"),
+            "van",
+            "8765",
+            "green",
+            math.floor(time.time())
+        )
+        insertIncident(
+            login("#007", "0011"),
+            "8765",
+            math.floor(time.time())+10
+        )
+
+        # self.cam_ = createAlert(
+        #     "##",
+        #     "8765"
+        # )
+        # self.assertFalse(self.cam_["Success"])
+
+        # self.cam_ = createAlert(
+        #     self.camera["api_token"],
+        #     "8764"
+        # )
+        # self.assertFalse(self.cam_["Success"])
+
+        self.cam = createAlert(
+            self.camera["api_token"],
+            "8765"
+        )
+        self.assertTrue(self.cam["Success"])
+        
 
 
 
 if __name__ == '__main__':
     unittest.main()
+
+    # cam = insertCamera(
+    #         login("#007", "0000")["api_token"], 
+    #         "CANON350", 
+    #         19.8667, 
+    #         -7.8962, 
+    #         "Sha wan drive"
+    #     )
+        
+    # print(cam["api_token"])
+    # # print(createAlert(
+    # #         cam["api_token"],
+    # #         "8765"
+    # #     ))
+
+    

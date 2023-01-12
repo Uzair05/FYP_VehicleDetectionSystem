@@ -204,20 +204,23 @@ def removeIncidentReport():
     conn.close()
     return generateStatus(True, "")
 
-@app.route("/testLicensePlate", methods=["GET"])
-def testLicensePlate():
+@app.route("/noteLicensePlate", methods=["GET"])
+def noteLicensePlate():
     time_ = math.floor(time.time()) #note time alert was recieved
     # test API token; only cameras can test for properties
     camera_api:Optional[str] = request.args.get("api_token", None, type=str)
     
     t, m = testCameraAPI(camera_api)
-    if (not t): return generateStatus(False, m)
+    if (not t):
+        return generateStatus(False, m)
 
     cameraID = getCameraID_from_API(camera_api)
-    if cameraID is None: return generateStatus(False, "Camera ID not found")
+    if cameraID is None:
+        return generateStatus(False, "Camera ID not found")
     
     license_plate_number:Optional[str] = request.args.get("license_plate_number", None, type=str)
-    if (license_plate_number is None): return generateStatus(False, "Incorrect Input")
+    if (license_plate_number is None):
+        return generateStatus(False, "Incorrect Input")
     
     
     threshold = 2 #edit threshold for edit distance
@@ -226,7 +229,7 @@ def testLicensePlate():
     if (res[0][1] == 0):
         res_ = res[0][0]
     else:
-        res_ = ";".join([i[0] for i in res if i[1]<=threshold])
+        res_ = "%".join([i[0] for i in res if i[1]<=threshold])
     
     if (len(res_)>0):
         conn = sqlite3.connect("./database/stolenVehiclesDatabase.db")
