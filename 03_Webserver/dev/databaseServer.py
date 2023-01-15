@@ -1,3 +1,5 @@
+from distutils.util import execute
+import json
 from typing import *
 from flask import Flask, request
 import sqlite3
@@ -222,25 +224,21 @@ def noteLicensePlate():
     if (license_plate_number is None):
         return generateStatus(False, "Incorrect Input")
     
-    
-    threshold = 2 #edit threshold for edit distance
-    res = sortByEditDistance(license_plate_number)
-    res_:str = ""
-    if (res[0][1] == 0):
-        res_ = res[0][0]
-    else:
-        res_ = "%".join([i[0] for i in res if i[1]<=threshold])
-    
-    if (len(res_)>0):
-        conn = sqlite3.connect("./database/stolenVehiclesDatabase.db")
+
+    conn = sqlite3.connect("./database/stolenVehiclesDatabase.db")
+    cursor = conn.execute(f"SELECT LICENSE_PLATE_NUMBER FROM STOLEN_VEHICLE WHERE LICENSE_PLATE_NUMBER=\"{license_plate_number}\";")
+    res = [row for row in cursor]
+    if (len(res)>0):
         conn.execute(
             "INSERT INTO SUSPECT (POSSIBLE_SV_ID, CAMERA_ID, TIME_CAUGHT) VALUES (?, ?, ?);",
-            (res_, cameraID, time_)
-        )
+            (license_plate_number, cameraID, time_)
+        ) # store license plate of suspect.
         conn.commit()
         conn.close()
+        return generateStatus(True, "ID Matched")
 
-    return generateStatus(True, res_)
+    conn.close()
+    return generateStatus(True, "No ID Matched")
 
     
 app.run(host='0.0.0.0')

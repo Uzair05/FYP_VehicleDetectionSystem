@@ -69,8 +69,8 @@ def createAlert(api_token, license_plate_number):
         "api_token":api_token,
         "license_plate_number":license_plate_number
     })
-    # return json.loads(req.text)
-    return req.text
+    return json.loads(req.text)
+    
 
 class Testing(unittest.TestCase):
     def testLogin(self):
@@ -207,43 +207,42 @@ class Testing(unittest.TestCase):
             "Sha wan drive"
         )
         self.assertTrue(self.camera["Success"])
+        
 
-        time.sleep(1)
-
-        insertVehicle(
-            login("#007", "0001"),
-            "van",
-            "8765",
-            "green",
-            math.floor(time.time())
-        )
-        time.sleep(1)
+        self.assertTrue(
+            insertVehicle(
+                login("#007", "0000")["api_token"],
+                "van",
+                "8765",
+                "green",
+                math.floor(time.time())
+            )["Success"])
 
         insertIncident(
-            login("#007", "0011"),
+            login("#007", "0000")["api_token"],
             "8765",
             math.floor(time.time())+10
         )
-        time.sleep(1)
 
-        # self.cam_ = createAlert(
-        #     "##",
-        #     "8765"
-        # )
-        # self.assertFalse(self.cam_["Success"])
+        self.cam_ = createAlert(
+            "##",
+            "8765"
+        )
+        self.assertFalse(self.cam_["Success"])
 
-        # self.cam_ = createAlert(
-        #     self.camera["api_token"],
-        #     "8764"
-        # )
-        # self.assertFalse(self.cam_["Success"])
+        self.cam_ = createAlert(
+            self.camera["api_token"],
+            "8764oo"
+        )
+        self.assertTrue(self.cam_["Success"])
+        self.assertEqual(self.cam_["Comments"], "No ID Matched")
 
         self.cam = createAlert(
             self.camera["api_token"],
             "8765"
         )
-        print(self.cam)
-        # self.assertTrue(self.cam["Success"])
+        self.assertTrue(self.cam["Success"])
+        self.assertEqual(self.cam["Comments"], "ID Matched")
         
 
 
