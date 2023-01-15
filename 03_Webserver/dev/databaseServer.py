@@ -246,24 +246,4 @@ app.run(host='0.0.0.0')
 
 
 #TODO: insertOfficer Unique check
-
-
-
-
-
-
-
-# DONE: put incident report --> DONE: Test for (vehicle); DONE: Test for (officer)
-# DONE: remove incident report 
-
-
-# DONE: put camera details
-# DONE: put officer details
-# DONE: officer login
-# DONE: put car details
-# DONE: remove car details
-
-# DONE: Test for (camera)
-# DONE: get from database for alert
-# DONE: get from database for testing
-# DONE: put in database for alert --> # TODO: human moderator edit
+#TODO: fix edit distanc correction check
