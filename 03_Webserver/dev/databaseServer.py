@@ -239,7 +239,8 @@ def noteLicensePlate():
         )
         conn.commit()
         conn.close()
-    return generateStatus(True, "")
+
+    return generateStatus(True, res_)
 
     
 app.run(host='0.0.0.0')
