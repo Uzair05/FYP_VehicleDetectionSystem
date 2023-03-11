@@ -1,7 +1,6 @@
 # Reference for webserver - taken from comp3330
 03_Webserver/tmp/
 tmp/
-04_InterimReport/
 02_Resources
 
 # Created by https://www.toptal.com/developers/gitignore/api/c,c++,node,flask,linux,macos,kotlin,python,pycharm,windows,intellij,androidstudio,visualstudiocode,react,reactnative
