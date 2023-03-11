@@ -1,7 +1,11 @@
 # Reference for webserver - taken from comp3330
 03_Webserver/tmp/
 tmp/
-02_Resources
+04_InterimReport/
+02_Resources/
+01_StreamLit_Dashboard/Tmp/
+01_StreamLit_Dashboard/Resources.txt
+Webdesign.txt
 
 # Created by https://www.toptal.com/developers/gitignore/api/c,c++,node,flask,linux,macos,kotlin,python,pycharm,windows,intellij,androidstudio,visualstudiocode,react,reactnative
 # Edit at https://www.toptal.com/developers/gitignore?templates=c,c++,node,flask,linux,macos,kotlin,python,pycharm,windows,intellij,androidstudio,visualstudiocode,react,reactnative
