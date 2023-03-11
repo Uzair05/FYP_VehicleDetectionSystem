@@ -2,7 +2,7 @@
 03_Webserver/tmp/
 tmp/
 04_InterimReport/
-
+02_Resources
 
 # Created by https://www.toptal.com/developers/gitignore/api/c,c++,node,flask,linux,macos,kotlin,python,pycharm,windows,intellij,androidstudio,visualstudiocode,react,reactnative
 # Edit at https://www.toptal.com/developers/gitignore?templates=c,c++,node,flask,linux,macos,kotlin,python,pycharm,windows,intellij,androidstudio,visualstudiocode,react,reactnative
