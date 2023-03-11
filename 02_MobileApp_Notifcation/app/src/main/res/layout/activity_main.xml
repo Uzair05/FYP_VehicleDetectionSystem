@@ -7,20 +7,95 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <TextView
+        android:orientation="vertical"
+        android:background="@drawable/gradient_back">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="Menu"
-            android:textSize="50sp"/>
-        <Button
-            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/menuPageTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="50dp"
+                android:textColor="@color/black"
+                android:text="@string/menuPageTitle"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="80dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="View Alerts"
-            android:padding="7dp"/>
+            android:orientation="vertical"
+            android:gravity="center">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/menu_login"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient_button"
+                android:text="@string/loginButton"
+
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp"
+                android:padding="15px"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/menu_notifications"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient_button"
+                android:text="@string/notificationPageTitle"
+
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp"
+                android:padding="15px"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/menu_addReports"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient_button"
+                android:text="@string/menuReport"
+
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp"
+                android:padding="15px"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/menu_removeReports"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient_button"
+                android:text="@string/menuRemoveReport"
+
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp"
+                android:padding="15px"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/menu_addCamera"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient_button"
+                android:text="@string/menuAddCamera"
+
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp"
+                android:padding="15px"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/menu_addOfficer"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient_button"
+                android:text="@string/menuAddOfficer"
+
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp"
+                android:padding="15px"/>
+
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

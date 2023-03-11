@@ -7,4 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="jungle_darkGreen">#008585</color>
+    <!--    <color name="jungle_green">#FF74A892</color>-->
+    <color name="jungle_green">#B9D3C8</color>
+    <color name="peach">#fbf2c4</color>
+    <color name="tan">#e5c185</color>
+    <color name="wood">#c7522a</color>
+    <color name="sky">#F0F8FF</color>
 </resources>
